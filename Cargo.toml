@@ -1,0 +1,32 @@
+[package]
+name = "rpmvercmp"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.60"
+
+authors = ["Yuki Yamaura <ymruki@gmail.com>"]
+license = "BSL-1.0"
+description = "Call rpmvercmp function from dynamic library: /usr/lib/librpm.so.*."
+homepage = "https://github.com/yamaura/rpmvercmp"
+repository = "https://github.com/yamaura/rpmvercmp"
+readme = "README.md"
+keywords = ["rpm"]
+categories = ["command-line-utilities"]
+include = ["src/**/*.rs", "README.md", "LICENSE"]
+
+[dependencies]
+clap = { version = "4.1.4", features = ["derive"], optional = true }
+libloading = "0.7.4"
+
+[features]
+cmdline = ["clap"]
+
+[[bin]]
+name = "rpmvercmp"
+path = "src/main.rs"
+required-features = ["cmdline"]
+
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1 # Parallel
